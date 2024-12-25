@@ -74,11 +74,20 @@ class GestureSyncMusicController:
                 client_socket.send(msg_i.encode())
                 
                 while True:
-                    # Receive data
-                    data = client_socket.recv(1024).decode("utf-8")
-                    data = data[0:-1]
-                    if not data:
-                        break
+                    if self.volume_changing:
+                        data = client_socket.recv(1024)
+                        data_int = int.from_bytes(data[0:-1],byteorder= 'little', signed=True)
+                        if data_int <= 100 and data_int >= -100 :
+                            data = data_int
+                            print(data)
+                        else :
+                            data = data.decode("utf-8")
+                            data = data[0:-1]
+                            print(data)
+                    else:
+                        data = client_socket.recv(1024).decode("utf-8")
+                        data = data[0:-1]
+                        print(data)
                     
                     # Process received command
                     self.process_gesture_command(data)

@@ -85,12 +85,11 @@ class GestureSyncMusicController:
                         else :
                             data = data.decode("utf-8")
                             data = data[0:-1]
+                            print(data)
                     else:
                         data = client_socket.recv(1024).decode("utf-8")
                         data = data[0:-1]
-                    if not data:
-                        break
-                    print(data)
+                        print(data)
                     
                     # Process received command
                     self.process_gesture_command(data)
@@ -163,6 +162,10 @@ class GestureSyncMusicController:
 
     def adjust_relative_volume(self, rotation):
         try:
+            # Ignore very small rotations to prevent noise
+            if abs(rotation) < 0.1:
+                return
+            
             # Current volume retrieval
             current_volume = self.get_current_volume()
             

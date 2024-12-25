@@ -71,7 +71,7 @@ const osThreadAttr_t defaultTask_attributes = {
   .cb_size = sizeof(defaultTaskControlBlock),
   .stack_mem = &defaultTaskBuffer[0],
   .stack_size = sizeof(defaultTaskBuffer),
-  .priority = (osPriority_t) osPriorityHigh,
+  .priority = (osPriority_t) osPriorityHigh1,
 };
 /* Definitions for acqTask */
 osThreadId_t acqTaskHandle;
@@ -83,7 +83,7 @@ const osThreadAttr_t acqTask_attributes = {
   .cb_size = sizeof(acqTaskControlBlock),
   .stack_mem = &acqTaskBuffer[0],
   .stack_size = sizeof(acqTaskBuffer),
-  .priority = (osPriority_t) osPriorityHigh,
+  .priority = (osPriority_t) osPriorityHigh1,
 };
 /* Definitions for commTask */
 osThreadId_t commTaskHandle;
@@ -123,10 +123,10 @@ const osSemaphoreAttr_t commStart_attributes = {
 };
 /* USER CODE BEGIN PV */
 
-#define SSID	"wifi_name" //need rewrite
-#define PASSWORD "wifi_password" //need rewrite
+#define SSID	"WIFI_ssid" //need to rewrite the WIFI SSID
+#define PASSWORD "WIFI_password" //need to rewrite the WIFI password
 
-uint8_t RemoteIP[] = {192,168,0,0}; //need rewrite
+uint8_t RemoteIP[] = {192,168,0,0}; //need to rewrite the IP where python code are running on
 #define RemotePORT	8002
 
 #define WIFI_WRITE_TIMEOUT 10000
@@ -1075,7 +1075,7 @@ void StartDefaultTask(void *argument)
 		uint8_t legal = 0;
 
 		while(isr_times >= 1){
-			osDelay(500);
+			osDelay(300);
 			isr_times = (isr_times == 1) ? 0 : 1;
 		}
 
@@ -1196,8 +1196,9 @@ void StartacqTask(void *argument)
 
 
 	if((wifi_connect == 1) && (++calculate_times >= 10) && (angle_int <= 90) && (angle_int >= -90)){
-		osSemaphoreRelease(commStartHandle);
+		printf("%ld\n",angle_int);
 		calculate_times = 0;
+		osSemaphoreRelease(commStartHandle);
 	}
 
 	// send 6D data

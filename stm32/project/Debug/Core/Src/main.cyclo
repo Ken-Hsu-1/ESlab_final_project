@@ -17,5 +17,5 @@
 ../Core/Src/main.c:1052:6:HAL_TIM_PeriodElapsedCallback	3
 ../Core/Src/main.c:1068:6:StartDefaultTask	14
 ../Core/Src/main.c:1167:6:StartacqTask	6
-../Core/Src/main.c:1228:6:StartcommTask	11
-../Core/Src/main.c:1289:6:Error_Handler	1
+../Core/Src/main.c:1229:6:StartcommTask	11
+../Core/Src/main.c:1290:6:Error_Handler	1
